@@ -1,0 +1,131 @@
+version: '3'
+
+networks:
+   internal:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.1/16
+
+services:
+  organizr:
+    image: lsiocommunity/organizr
+    container_name: organizr
+    restart: unless-stopped
+    networks:
+      internal:
+        ipv4_address: 172.18.0.2
+    ports:
+      - "127.0.0.1:9000:80/tcp"
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - UMASK=022
+    volumes:
+      - "/opt/docker/mediabox/organizr:/config"
+
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    restart: unless-stopped
+    networks:
+      internal:
+        ipv4_address: 172.18.0.3
+    ports:
+      - "127.0.0.1:9091:9091/tcp"
+      - "51413:51413/udp"
+    environment:
+      - TZ=Europe/London
+      - PGID=1000
+      - PUID=1000
+      - UMASK=022
+    volumes:
+      - "/opt/docker/mediabox/transmission:/config"
+      - "/opt/downloads:/downloads"
+
+  jackett:
+    image: hotio/suitarr
+    container_name: jackett
+    restart: unless-stopped
+    networks:
+      internal:
+        ipv4_address: 172.18.0.4
+    ports:
+      - "127.0.0.1:9117:9117/tcp"
+    environment:
+      - APP=jackett
+      - VERSION=stable
+      - PUID=1000
+      - PGID=1000
+      - UMASK=022
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/opt/docker/mediabox:/config"
+
+  sonarr:
+    image: hotio/suitarr
+    container_name: sonarr
+    restart: unless-stopped
+    networks:
+      internal:
+        ipv4_address: 172.18.0.5
+    ports:
+      - "127.0.0.1:8989:8989/tcp"
+    environment:
+      - APP=sonarr
+      - VERSION=stable
+      - PUID=1000
+      - PGID=1000
+      - UMASK=022
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/opt/docker/mediabox/sonarr:/config"
+
+  radarr:
+    image: hotio/suitarr
+    container_name: radarr
+    restart: unless-stopped
+    networks:
+      internal:
+        ipv4_address: 172.18.0.6
+    ports:
+      - "127.0.0.1:7878:7878/tcp"
+    environment:
+      - APP=radarr
+      - VERSION=stable
+      - PUID=1000
+      - PGID=1000
+      - UMASK=022
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/opt/docker/mediabox/radarr:/config"
+
+  lidarr:
+    image: hotio/suitarr
+    container_name: lidarr
+    restart: unless-stopped
+    networks:
+      internal:
+        ipv4_address: 172.18.0.7
+    ports:
+      - "127.0.0.1:8686:8686/tcp"
+    environment:
+      - APP=lidarr
+      - VERSION=stable
+      - PUID=1000
+      - PGID=1000
+      - UMASK=022
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/opt/docker/mediabox/lidarr:/config"
+
+  transmission-rss:
+    image: reverie89/transmission-rss
+    container_name: transmission-rss
+    restart: unless-stopped
+    networks:
+      internal:
+        ipv4_address: 172.18.0.8
+    volumes:
+      - "/opt/docker/mediabox/transmission-rss:/config"
