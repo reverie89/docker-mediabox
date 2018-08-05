@@ -45,7 +45,7 @@ services:
       - "/opt/downloads:/downloads"
 
   jackett:
-    image: hotio/suitarr
+    image: hotio/suitarr:jackett
     container_name: jackett
     restart: unless-stopped
     networks:
@@ -54,17 +54,16 @@ services:
     ports:
       - "127.0.0.1:9117:9117/tcp"
     environment:
-      - APP=jackett
       - VERSION=stable
       - PUID=1000
       - PGID=1000
       - UMASK=022
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "/opt/docker/mediabox:/config"
+      - "/opt/docker/mediabox/jackett/config:/config"
 
   sonarr:
-    image: hotio/suitarr
+    image: hotio/suitarr:sonarr
     container_name: sonarr
     restart: unless-stopped
     networks:
@@ -73,17 +72,16 @@ services:
     ports:
       - "127.0.0.1:8989:8989/tcp"
     environment:
-      - APP=sonarr
       - VERSION=stable
       - PUID=1000
       - PGID=1000
       - UMASK=022
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "/opt/docker/mediabox/sonarr:/config"
+      - "/opt/docker/mediabox/sonarr/config:/config"
 
   radarr:
-    image: hotio/suitarr
+    image: hotio/suitarr:radarr
     container_name: radarr
     restart: unless-stopped
     networks:
@@ -92,17 +90,16 @@ services:
     ports:
       - "127.0.0.1:7878:7878/tcp"
     environment:
-      - APP=radarr
       - VERSION=stable
       - PUID=1000
       - PGID=1000
       - UMASK=022
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "/opt/docker/mediabox/radarr:/config"
+      - "/opt/docker/mediabox/radarr/config:/config"
 
   lidarr:
-    image: hotio/suitarr
+    image: hotio/suitarr:lidarr
     container_name: lidarr
     restart: unless-stopped
     networks:
@@ -111,14 +108,13 @@ services:
     ports:
       - "127.0.0.1:8686:8686/tcp"
     environment:
-      - APP=lidarr
       - VERSION=stable
       - PUID=1000
       - PGID=1000
       - UMASK=022
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "/opt/docker/mediabox/lidarr:/config"
+      - "/opt/docker/mediabox/lidarr/config:/config"
 
   transmission-rss:
     image: reverie89/transmission-rss
