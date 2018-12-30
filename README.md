@@ -4,9 +4,13 @@ Fancy a convenient way to load up your containers?
 
 Written for personal use only.
 
+## Prerequisites
+1. Docker `curl -sSL https://get.docker.com/ | sh`
+2. [docker-compose](https://docs.docker.com/compose/install/) `sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose && docker-compose --version`
+
 ## Deploy
-1. Install [docker-compose](https://docs.docker.com/compose/install/)
-2. Go to directory where file is downloaded and then run `docker-compose up -d`
+1. Download `docker-compose.yaml`
+2. Run `docker-compose up -d`
 3. ???
 4. Profit!
 
